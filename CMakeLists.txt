@@ -12,7 +12,11 @@ set (SOURCES
         src/main.c
         ${ASM_SOURCES}
         src/common.h
+        src/vendors/vbox.h
+        src/vendors/vmware.h
         src/vendors.c
+        src/vendors/qemu.h
+        src/vendors/wsl.h
 )
 
 set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE ASM_NASM)

@@ -2,41 +2,41 @@
 #include "common.h"
 
 int main() {
-    enum VirtualizationVendor vendor = get_vm_vendor();
 
-    // Check CPUID available
-    printf("Checking CPUID availabily... ");
+    // Check CPUID availability
+    printf("Checking CPUID availability... ");
     if (!is_cpuid_supported()) {
         printf("CPUID not supported.");
         return -1;
     }
     printf("Check!\n");
 
-    // Check VM available
+    // Check if it's VM via CPUID
     printf("Checking VM... ");
-    if (is_vm_running() == 0) {
+    if (is_vm_running() == 1) {
         printf("VM not detected.\n");
         return -1;
     }
     printf("Check!\n");
 
     // Check vendors
-    switch (vendor) {
+    switch (get_vm_vendor()) {
         case VENDOR_VMWARE:
             printf("VMWare detected\n");
             break;
-        case VENDOR_KVM:
-            printf("KVM detected\n");
+        case VENDOR_VBOX:
+            printf("VirtualBox detected\n");
             break;
-        case VENDOR_HYPERV:
-            printf("Hyper-V detected\n");
+        case VENDOR_QEMU:
+            printf("QEMU detected\n");
+            break;
+        case VENDOR_WSL:
+            printf("WSL detected\n");
             break;
         case VENDOR_UNKNOWN:
             printf("No known virtualization vendor detected\n");
             break;
     }
-
-
 
     return 0;
 }

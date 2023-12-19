@@ -1,47 +1,25 @@
-//
-// Created by Zeropio on 17/12/2023.
-//
-
 #include "common.h"
+#include "vendors/vmware.h"
+#include "vendors/vbox.h"
+#include "vendors/qemu.h"
+#include "vendors/wsl.h"
 
 enum VirtualizationVendor get_vm_vendor() {
-    unsigned int eax, ebx, ecx, edx;
-
-    // Check for VMWare
-    eax = 0x40000000;
-    __asm__ volatile(
-            "cpuid"
-            : "=a" (eax), "=b" (ebx), "=c" (ecx), "=d" (edx)
-            : "a" (eax)
-            );
-
-    if (ebx == 'VMXh') {
+    if (checkVMware() == 1) {
         return VENDOR_VMWARE;
     }
 
-    // Check for KVM
-    eax = 0x40000000;
-    __asm__ volatile(
-            "cpuid"
-            : "=a" (eax), "=b" (ebx), "=c" (ecx), "=d" (edx)
-            : "a" (eax)
-            );
-
-    if (ebx == 'KVMK') {
-        return VENDOR_KVM;
+    if (checkVBox() == 1) {
+        return VENDOR_VBOX;
     }
 
-    // Check for Hyper-V
-    eax = 0x40000000;
-    __asm__ volatile(
-            "cpuid"
-            : "=a" (eax), "=b" (ebx), "=c" (ecx), "=d" (edx)
-            : "a" (eax)
-            );
+    if (checkQEMU() == 1) {
+        return VENDOR_QEMU;
+    }
 
-    if (ebx == 'hypv') {
-        return VENDOR_HYPERV;
+    if (checkWSL() == 1) {
+        return VENDOR_WSL;
     }
 
     return VENDOR_UNKNOWN;
-}
+};
