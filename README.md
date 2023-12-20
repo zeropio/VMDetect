@@ -24,6 +24,8 @@ make
 ./VMDetect.exe
 ```
 
+![](screenshots/ss1.png)
+
 ## Support
 Currently, this project only supports the Windows OS.
 
